@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical Waste Classifier</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin: 20px 0; }
+        input[type="text"] { width: 100%; padding: 10px; font-size: 16px; }
+        button { background: #4CAF50; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #45a049; }
+        .result-section { margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; }
+        .visualizations { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px; }
+        .error { color: #dc3545; background: #f8d7da; padding: 15px; border-radius: 4px; margin-top: 20px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Medical Waste Classification</h1>
+    <form method="POST">
+        <div class="form-group">
+            <input type="text" name="text" value="{{ request.form.text if request.form.text }}" 
+                   placeholder="Enter waste description..." required>
+        </div>
+        <button type="submit">Classify</button>
+    </form>
+
+    {% if error %}
+    <div class="error">
+        Error: {{ error }}
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result-section">
+        <h2>Classification Result</h2>
+        <p><strong>Input Text:</strong> {{ result.text }}</p>
+        <p><strong>Prediction:</strong> {{ result.prediction }} ({{ result.hazard_level }} Risk)</p>
+        <p><strong>Confidence:</strong> {{ result.confidence }}</p>
+
+        <div class="visualizations">
+            <div>
+                <h3>Confidence Distribution</h3>
+                <img src="data:image/png;base64,{{ result.confidence_plot }}">
+            </div>
+            <div>
+                <h3>Hazard Level</h3>
+                <img src="data:image/png;base64,{{ result.hazard_plot }}">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>

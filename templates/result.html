@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result - Medical Waste Classifier</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .result-section { margin: 20px 0; padding: 20px; background: #f5f5f5; }
+        .visualizations { display: flex; gap: 20px; margin-top: 20px; }
+        img { max-width: 100%; }
+    </style>
+</head>
+<body>
+    <h1>Classification Result</h1>
+    <div class="result-section">
+        <h3>Input Text:</h3>
+        <p>{{ text }}</p>
+        
+        <h3>Prediction:</h3>
+        <p>{{ prediction }} ({{ hazard_level }} Risk)</p>
+        
+        <h3>Confidence:</h3>
+        <p>{{ confidence }}</p>
+    </div>
+
+    <div class="visualizations">
+        <div>
+            <h4>Confidence Distribution</h4>
+            <img src="data:image/png;base64,{{ confidence_plot }}">
+        </div>
+        <div>
+            <h4>Hazard Level</h4>
+            <img src="data:image/png;base64,{{ hazard_plot }}">
+        </div>
+    </div>
+    
+    <a href="/">← New Classification</a>
+</body>
+</html>

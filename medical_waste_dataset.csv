@@ -1,0 +1,56 @@
+Description,Category
+needle,Sharps
+syringe,Sharps
+scalpel,Sharps
+lancet,Sharps
+blade,Sharps
+broken glass,Sharps
+sharp instrument,Sharps
+surgical blade,Sharps
+iv needle,Sharps
+suture needle,Sharps
+chemical waste,Chemical
+acid,Chemical
+toxic chemical,Chemical
+laboratory chemical,Chemical
+chemical container,Chemical
+hazardous chemical,Chemical
+chemical solution,Chemical
+chemical reagent,Chemical
+medicine bottle,Pharmaceutical
+pill container,Pharmaceutical
+pharmaceutical,Pharmaceutical
+medication,Pharmaceutical
+expired drug,Pharmaceutical
+unused medicine,Pharmaceutical
+drug vial,Pharmaceutical
+medicine packaging,Pharmaceutical
+rubber glove,General
+rubber gloves,General
+latex glove,General
+latex gloves,General
+rubber glove,General
+rubber gloves,General
+latex glove,General
+latex gloves,General
+medical glove,General
+medical gloves,General
+surgical glove,General
+surgical gloves,General
+protective glove,General
+protective gloves,General
+examination glove,General
+examination gloves,General
+nitrile glove,General
+nitrile gloves,General
+disposable glove,General
+disposable gloves,General
+bandage,General
+gauze,General
+cotton swab,General
+paper towel,General
+packaging,General
+plastic container,General
+disposable item,General
+dressing,General
+medical packaging,General
