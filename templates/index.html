@@ -12,6 +12,42 @@
         .visualizations { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px; }
         .error { color: #dc3545; background: #f8d7da; padding: 15px; border-radius: 4px; margin-top: 20px; }
         .hidden { display: none; }
+        
+        /* Enhanced styles for smooth hazard indicator animation */
+        .hazard-container { 
+            position: relative; 
+            height: 300px;
+            width: 100px;
+            margin: 0 auto;
+        }
+        .hazard-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .hazard-marker {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 2;
+            /* Starting position - below the visible scale */
+            bottom: -20px;
+            transition: bottom 2s ease-in-out;
+        }
+        /* Target positions for different hazard levels */
+        .marker-low {
+            bottom: 60px;  /* Position for L */
+        }
+        .marker-medium {
+            bottom: 150px; /* Position for M */
+        }
+        .marker-high {
+            bottom: 240px; /* Position for H */
+        }
     </style>
 </head>
 <body>
@@ -44,10 +80,33 @@
             </div>
             <div>
                 <h3>Hazard Level</h3>
-                <img src="data:image/png;base64,{{ result.hazard_plot }}">
+                <div class="hazard-container">
+                    <img class="hazard-background" src="data:image/png;base64,{{ result.hazard_plot.background }}">
+                    <img id="hazard-marker" class="hazard-marker" src="data:image/png;base64,{{ result.hazard_plot.marker }}">
+                </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        // Animation for hazard level indicator with smooth sliding effect
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show result section
+            const resultSection = document.querySelector('.result-section');
+            if (resultSection) {
+                const marker = document.getElementById('hazard-marker');
+                
+                // Short delay before starting animation
+                setTimeout(function() {
+                    // Get target position from Python
+                    const targetPosition = "{{ result.hazard_plot.target_position }}";
+                    
+                    // Apply appropriate CSS class to move to target position
+                    marker.classList.add('marker-' + targetPosition);
+                }, 1000); // 1 second delay before animation starts
+            }
+        });
+    </script>
     {% endif %}
 </body>
 </html>

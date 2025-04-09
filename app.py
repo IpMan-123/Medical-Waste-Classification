@@ -108,17 +108,76 @@ def plot_confidence(probs, classes):
     return base64.b64encode(buf.getbuffer()).decode('ascii')
 
 def plot_hazard_indicator(hazard_level):
-    """Generate hazard level indicator"""
-    fig, ax = plt.subplots(figsize=(3, 3))
-    ax.add_patch(plt.Circle((0.5, 0.5), 0.4, color=CONFIG['hazard_colors'][hazard_level]))
-    ax.text(0.5, 0.5, hazard_level[0], ha='center', va='center', 
-            fontsize=24, color='white', weight='bold')
-    ax.axis('off')
+    """Generate separate components for an animated hazard level indicator"""
+    result = {}
     
-    buf = BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight')
-    plt.close()
-    return base64.b64encode(buf.getbuffer()).decode('ascii')
+    # Positions for H, M, L (top to bottom)
+    positions = [0.8, 0.5, 0.2]
+    labels = ['H', 'M', 'L']
+    
+    # Determine final position based on hazard level
+    if hazard_level == 'Low':
+        final_pos = positions[2]  # L position (bottom)
+        marker_color = CONFIG['hazard_colors']['Low']
+    elif hazard_level == 'Medium':
+        final_pos = positions[1]  # M position (middle)
+        marker_color = CONFIG['hazard_colors']['Medium']
+    else:  # High
+        final_pos = positions[0]  # H position (top)
+        marker_color = CONFIG['hazard_colors']['High']
+    
+    # Generate background image (just the vertical bar and labels)
+    fig_bg, ax_bg = plt.subplots(figsize=(1.5, 6))
+    
+    # Create slider background
+    ax_bg.axvline(x=0.5, ymin=0.05, ymax=0.95, color='#e0e0e0', linewidth=10, alpha=0.7)
+    
+    # Add markers for H, M, L
+    for pos, label in zip(positions, labels):
+        ax_bg.text(0.25, pos, label, ha='center', va='center', fontsize=14, fontweight='bold', color='#555555')
+    
+    ax_bg.set_xlim(0, 1)
+    ax_bg.set_ylim(0, 1)
+    ax_bg.axis('off')
+    
+    buf_bg = BytesIO()
+    plt.savefig(buf_bg, format='png', bbox_inches='tight')
+    plt.close(fig_bg)
+    result['background'] = base64.b64encode(buf_bg.getbuffer()).decode('ascii')
+    
+    # Generate marker image (just the circular indicator with the letter)
+    fig_marker, ax_marker = plt.subplots(figsize=(1.2, 1.2))
+    
+    # Add the marker
+    ax_marker.scatter(0.5, 0.5, s=400, color=marker_color, zorder=5, 
+                      edgecolor='white', linewidth=2)
+    
+    # Add triangle pointer to the right
+    ax_marker.scatter(0.75, 0.5, s=150, color=marker_color, zorder=5, 
+                      marker='>', edgecolor='white', linewidth=1)
+    
+    # Add hazard level text
+    ax_marker.text(0.5, 0.5, hazard_level[0], ha='center', va='center', 
+                   fontsize=14, color='white', weight='bold', zorder=10)
+    
+    ax_marker.set_xlim(0, 1)
+    ax_marker.set_ylim(0, 1)
+    ax_marker.axis('off')
+    
+    buf_marker = BytesIO()
+    plt.savefig(buf_marker, format='png', bbox_inches='tight', transparent=True)
+    plt.close(fig_marker)
+    result['marker'] = base64.b64encode(buf_marker.getbuffer()).decode('ascii')
+    
+    # Store the target position information
+    if hazard_level == 'Low':
+        result['target_position'] = 'low'
+    elif hazard_level == 'Medium':
+        result['target_position'] = 'medium'
+    else:  # High
+        result['target_position'] = 'high'
+    
+    return result
 
 def plot_disposal_method(disposal_text: str) -> str:
     """Generate disposal method text visualization"""
@@ -160,7 +219,7 @@ def index():
             probs = classifier.model.predict_proba(features)[0]
             prediction = classifier.model.predict(features)[0]
             hazard_level = classifier.get_hazard_level(prediction)
-            disposal_text = get_disposal(prediction)  # Now using the defined function
+            disposal_text = get_disposal(prediction)
             
             result = {
                 'text': text,
