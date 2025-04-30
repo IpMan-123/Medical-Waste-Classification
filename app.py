@@ -228,6 +228,7 @@ def index():
                 'confidence': f"{max(probs)*100:.2f}%",
                 'confidence_plot': plot_confidence(probs*100, classifier.model.classes_),
                 'hazard_plot': plot_hazard_indicator(hazard_level),
+                'disposal_text': disposal_text,  # Add the disposal text directly to the result
                 'disposal_plot': plot_disposal_method(disposal_text)
             }
         except Exception as e:

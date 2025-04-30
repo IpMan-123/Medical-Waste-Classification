@@ -1,17 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Error</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Medical Waste Classifier</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .error { color: red; padding: 20px; background: #ffeeee; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+            text-align: center;
+        }
+        .error-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            border-left: 5px solid #e74c3c;
+        }
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        .error-details {
+            background-color: #f9f2f4;
+            padding: 15px;
+            border-radius: 4px;
+            color: #c7254e;
+            font-family: monospace;
+            text-align: left;
+            margin: 20px 0;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
-    <h1>Classification Error</h1>
-    <div class="error">
-        <p>{{ error }}</p>
+    <div class="error-container">
+        <h1>An Error Occurred</h1>
+        <p>There was a problem processing your request:</p>
+        
+        <div class="error-details">
+            {{ error }}
+        </div>
+        
+        <a href="/" class="btn">Back to Classifier</a>
     </div>
-    <a href="/">← Try Again</a>
 </body>
 </html>
