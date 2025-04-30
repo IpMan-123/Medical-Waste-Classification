@@ -1,5 +1,5 @@
 # Medical Waste Classification System
-
+#By Nishikanta Ngangom
 ## Overview
 This web application classifies medical waste descriptions into appropriate categories and determines their hazard levels. Using natural language processing (NLP) and machine learning techniques, it provides healthcare professionals with quick, accurate waste disposal guidance to ensure compliance with medical waste regulations and safety protocols.
 

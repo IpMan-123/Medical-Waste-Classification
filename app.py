@@ -2,6 +2,7 @@
 Medical Waste Classifier Web App
 Integrated with previous classification logic
 """
+
 # Add these imports at the VERY TOP of your file
 import matplotlib
 matplotlib.use('Agg')  # Set backend before other imports
